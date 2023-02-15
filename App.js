@@ -5,8 +5,9 @@ import { NavigationContainer } from "@react-navigation/native";
 
 //ventanas
 import HomeScreen from "./screens/HomeScreen";
-import ProfileScreen from "./screens/ProfileScreen";
+import ShipsScreen from "./screens/ShipsScreen";
 import LogingScreen from "./screens/LogingScreen";
+import Logout from "./screens/Logout";
 
 import { RootSiblingParent } from "react-native-root-siblings";
 import * as SecureStore from "expo-secure-store";
@@ -22,14 +23,11 @@ const deleteFromMemory = async (key) => {
   await SecureStore.deleteItemAsync(key);
 };
 
-// quitar
 const getValueFor = async (key) => {
   let result = await SecureStore.getItemAsync(key);
   if (result) {
-    //  alert("Tu valor es => " + result);
     return result;
   }
-  //alert("No existe esa key ");
   return "";
 };
 
@@ -59,23 +57,23 @@ export default function App() {
     <RootSiblingParent>
       <NavigationContainer>
         <Drawer.Navigator>
-            {userToken === "" ? (
-              <>
-                <Drawer.Screen name="Login Way">
-                  {() => <LogingScreen onLogin={storeUserToken} />}
-                </Drawer.Screen>
-              </>
-            ) : (
-              <>
-                <Drawer.Screen name="Home">
-                  {() => <HomeScreen token={userToken} />}
-                </Drawer.Screen>
-                <Drawer.Screen name="Profile" component={ProfileScreen} />
-                <Drawer.Screen name="Logout">
-                  {() => deleteStoreUserToken()}
-                </Drawer.Screen>
-              </>
-            )}
+          {userToken === "" ? (
+            <>
+              <Drawer.Screen name="Login">
+                {() => <LogingScreen onLogin={storeUserToken} />}
+              </Drawer.Screen>
+            </>
+          ) : (
+            <>
+              <Drawer.Screen name="Home">
+                {() => <HomeScreen token={userToken} />}
+              </Drawer.Screen>
+              <Drawer.Screen name="Ships">
+                {() => <ShipsScreen token={userToken} />}
+              </Drawer.Screen>
+              <Drawer.Screen name="Logout">{() => <Logout deleteStoreUserToken={deleteStoreUserToken} />}</Drawer.Screen>
+            </>
+          )}
         </Drawer.Navigator>
       </NavigationContainer>
     </RootSiblingParent>

@@ -4,6 +4,9 @@ import { getUserProfile, getCatalogShips } from '../services/spacetraders';
 
 const HomeScreen = ({ token }) => {
 
+
+  // el perfil tiene que estar en el app y se lo paso a este
+
   const [profile, setProfile] = useState({
     user: {
       credits: 0,
@@ -11,9 +14,9 @@ const HomeScreen = ({ token }) => {
       shipCount: 0,
       structureCount: 0,
       username: ''
-
     }
   });
+
   const [catalog, setCatalog] = useState([]);
 
   useEffect(() => {
