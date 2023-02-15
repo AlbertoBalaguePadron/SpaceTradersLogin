@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { Text, Button, TextInput, StyleSheet, View } from 'react-native';
+import { Text, Button, TextInput, Modal, StyleSheet, View } from 'react-native';
+import { NewUser } from '../services/spacetraders';
+
 
 // para importar el toast 
 import Toast from 'react-native-root-toast';
@@ -8,48 +10,137 @@ import Toast from 'react-native-root-toast';
 const LogingScreen = ({ onLogin }) => {
 
   const [userToken, setUserToken] = useState('');
+  const [userName, setUserName] = useState('');
+  const [modalVisibleLogin, setModalVisibleLogin] = useState(false);
+  const [modalVisibleRegister, setModalVisibleRegister] = useState(false);
 
   const tokenHandler = () => {
     if (userToken !== '') {
-        onLogin(userToken);
+      onLogin(userToken);
+      setModalVisibleLogin(false)
     } else {
-      // Instalamos una lireria para utilizar las toast porque es multiplataforma => npm i react-native-root-toast
       Toast.show("Introduzca un Token para continuar !!!!", {
         duration: Toast.durations.LONG,
-        backgroundColor: "red", 
+        backgroundColor: "red",
         textColor: "white",
       });
     }
   }
 
+  const userNameHandler = () => {
+    if (userName !== '') {
+
+      const NewUser = 7;
+
+      setModalVisibleRegister(false)
+    } else {
+      Toast.show("Introduzca un Nick para continuar !!!!", {
+        duration: Toast.durations.LONG,
+        backgroundColor: "red",
+        textColor: "white",
+      });
+    }
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title} >Login</Text>
-      <Text>Su token es = {userToken}</Text>
-      <TextInput onChangeText={setUserToken} value={userToken} placeholder="Introduce su token" />
-      <Button style={styles.text} title="Login" onPress={tokenHandler} />
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisibleRegister}
+        onRequestClose={() => setModalVisibleRegister(false)}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText} >Introduce su Nick : </Text>
+            <TextInput style={styles.modalText} onChangeText={setUserName} value={userName} placeholder=" Introduce su username" />
+            <View style={styles.buttonsContainer}>
+              <Button title="Register" onPress={userNameHandler} />
+              <Button title="Close" onPress={() => {
+                setModalVisibleRegister(false);
+                setUserName('');
+              }} />
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisibleLogin}
+        onRequestClose={() => setModalVisibleLogin(false)}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText} >Introduce su Token: </Text>
+            <TextInput style={styles.modalText} onChangeText={setUserToken} value={userToken} placeholder=" Introduce su token" />
+
+            <View style={styles.buttonsContainer}>
+              <Button title="Login" onPress={tokenHandler} />
+              <Button title="Close" onPress={() => {
+                setModalVisibleLogin(false);
+                setUserToken('');
+              }} />
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      <View >
+        <Button style={styles.ButtonOpenModals} title="Login" onPress={() => setModalVisibleLogin(true)} />
+        <Button style={styles.ButtonOpenModals} title="Registrer" onPress={() => setModalVisibleRegister(true)} />
+      </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
     alignItems: "center",
-    width: "100%",
   },
+
+  ButtonOpenModals: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingBottom: 10, 
+  },
+
+  centeredView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+
+  },
+
+  modalView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+    height: '40%',
+    width: '70%',
+  },
+
+
   text: {
-    textAlign: "center",
-    height: 25,
-    width: 100,
-    backgroundColor: "#59F16C",
+    flex: 1,
+    textAlign: 'center',
+    fontSize: 15,
+    marginBottom: 30,
   },
-  title: {
+  modalText: {
     textAlign: "center",
-    height: 25,
-    width: 100,
+    flexWrap: 'nowrap',
+  },
+  buttonsContainer: {
+    marginTop: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: "70%",
   },
 });
 

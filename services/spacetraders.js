@@ -1,15 +1,14 @@
-import * as credentials from "../screens/credencials.json";
-
 const endpoint = {
-  userProfile: `https://api.spacetraders.io/my/account?token=${credentials.token}`,
+  userProfile: "https://api.spacetraders.io/my/account?token=",
   state: "https://api.spacetraders.io/game/status",
-  CatalogShips:
-  `https://api.spacetraders.io/types/ships?token=${credentials.token}`,
+  catalogShips: "https://api.spacetraders.io/types/ships?token=",
 };
 
-export const getUserProfile = async () => {
+export const getUserProfile = async (token) => {
   try {
-    const response = await fetch(endpoint.userProfile);
+    const response = await fetch(
+      endpoint.userProfile + token.replace(/"/g, "")
+    );
     const data = await response.json();
     return data;
   } catch (error) {
@@ -18,9 +17,11 @@ export const getUserProfile = async () => {
   }
 };
 
-export const getCatalogShips = async () => {
+export const getCatalogShips = async (token) => {
   try {
-    const response = await fetch(endpoint.CatalogShips);
+    const response = await fetch(
+      endpoint.catalogShips + token.replace(/"/g, "")
+    );
     const data = await response.json();
     return data;
   } catch (error) {
@@ -28,3 +29,15 @@ export const getCatalogShips = async () => {
     return [];
   }
 };
+
+// necesito mirar bien el como hacer esta consulta post por fetch preguntar porfe OJO !!!!!!
+// export const NewUser = async (nick) => {
+//   try {
+//     const newuser = `https://api.spacetraders.io/users/${nick}/claim`;
+//     const data = await fetch(newuser);
+//     return data;
+//   } catch (error) {
+//     console.log(error);
+//     return null;
+//   }
+// };

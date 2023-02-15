@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
 
@@ -11,7 +11,7 @@ import LogingScreen from "./screens/LogingScreen";
 import { RootSiblingParent } from "react-native-root-siblings";
 import * as SecureStore from "expo-secure-store";
 
-const STORE_TOKEN_MY_KEY = "mytoken";
+const STORE_TOKEN_MY_KEY = "Mytoken";
 const Drawer = createDrawerNavigator();
 
 const saveInMemory = async (key, value) => {
@@ -22,14 +22,14 @@ const deleteFromMemory = async (key) => {
   await SecureStore.deleteItemAsync(key);
 };
 
-// quitar 
+// quitar
 const getValueFor = async (key) => {
   let result = await SecureStore.getItemAsync(key);
   if (result) {
-    alert("Tu valor es => " + result);
+    //  alert("Tu valor es => " + result);
     return result;
   }
-  alert("No existe esa key ");
+  //alert("No existe esa key ");
   return "";
 };
 
@@ -59,21 +59,23 @@ export default function App() {
     <RootSiblingParent>
       <NavigationContainer>
         <Drawer.Navigator>
-          {userToken === "" ? (
-            <>
-              <Drawer.Screen name="Login Way">
-                {() => <LogingScreen onLogin={storeUserToken} />}
-              </Drawer.Screen>
-            </>
-          ) : (
-            <>
-              <Drawer.Screen name="Home" component={HomeScreen} />
-              <Drawer.Screen name="Profile" component={ProfileScreen} />
-              <Drawer.Screen name="Logout">
-                {() => deleteStoreUserToken()}
-              </Drawer.Screen>
-            </>
-          )}
+            {userToken === "" ? (
+              <>
+                <Drawer.Screen name="Login Way">
+                  {() => <LogingScreen onLogin={storeUserToken} />}
+                </Drawer.Screen>
+              </>
+            ) : (
+              <>
+                <Drawer.Screen name="Home">
+                  {() => <HomeScreen token={userToken} />}
+                </Drawer.Screen>
+                <Drawer.Screen name="Profile" component={ProfileScreen} />
+                <Drawer.Screen name="Logout">
+                  {() => deleteStoreUserToken()}
+                </Drawer.Screen>
+              </>
+            )}
         </Drawer.Navigator>
       </NavigationContainer>
     </RootSiblingParent>
