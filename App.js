@@ -94,7 +94,7 @@ export default function App() {
                 {() => <HomeScreen profileData={profile} />}
               </Drawer.Screen>
               <Drawer.Screen name="Ships">
-                {() => <ShipsScreen token={userToken} />}
+                {() => <ShipsScreen catalogShips={catalog} />}
               </Drawer.Screen>
               <Drawer.Screen name="Logout">
                 {() => <Logout deleteStoreUserToken={deleteStoreUserToken} />}

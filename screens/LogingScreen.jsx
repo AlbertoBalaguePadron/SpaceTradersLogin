@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import { Text, Image, Button, TextInput, Modal, StyleSheet, View } from 'react-native';
-
-
-// para importar el toast 
 import Toast from 'react-native-root-toast';
-// mirar documentación OJO Echarle 1 o 2 horas 
 
 const LogingScreen = ({ onLogin }) => {
 

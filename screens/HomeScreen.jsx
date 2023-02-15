@@ -1,6 +1,6 @@
 import { Text, StyleSheet, View, Image } from 'react-native';
 
-const HomeScreen = ({profileData}) => {
+const HomeScreen = ({ profileData }) => {
 
   return (
     <View style={styles.container}>
@@ -8,7 +8,7 @@ const HomeScreen = ({profileData}) => {
 
       {profileData.user.username == '' ? (
         <View>
-          <Text style={{color: 'white', size: 15}}>Cargando los datos</Text>
+          <Text style={{ color: 'white', size: 15 }}>Cargando los datos</Text>
         </View>
       ) : (
         <View style={styles.containerprofile}>
@@ -20,7 +20,7 @@ const HomeScreen = ({profileData}) => {
           </View>
 
           <View style={styles.creditTarget}>
-            <Text style={styles.textTarget}> Credits: </Text>
+            <Text style={styles.textTarget}>Credits:</Text>
             <Text style={styles.textTarget}>{profileData.user.credit}</Text>
           </View>
 
@@ -30,14 +30,14 @@ const HomeScreen = ({profileData}) => {
               <Image
                 style={styles.images}
                 source={require("../assets/imperial-navy.jpg")} />
-              <Text style={styles.textTarget}>{profileData.user.shipCount}</Text>
+              <Text style={styles.textTarget}>Ships : {profileData.user.shipCount}</Text>
             </View>
 
             <View style={styles.contentTarget}>
               <Image
                 style={styles.images}
                 source={require("../assets/ciudadColmena.jpg")} />
-              <Text style={styles.textTarget}>{profileData.user.structureCount}</Text>
+              <Text style={styles.textTarget}> Estructure : {profileData.user.structureCount}</Text>
             </View>
           </View>
 
@@ -92,10 +92,10 @@ const styles = StyleSheet.create({
     paddingRight: 50,
   },
   images: {
-    width: 50,
-    height: 50,
-    borderRadius: 100,
-    paddingRight: 50,
+    width: 70,
+    height: 70,
+    borderRadius: 80,
+    paddingLeft: 50,
   },
   creditTarget: {
     flex: 1,
@@ -121,6 +121,8 @@ const styles = StyleSheet.create({
 
   contentTarget: {
     flexDirection: "row",
+    alignContent: "center",
+    alignItems: "center",
     paddingBottom: 10,
   },
 
@@ -128,8 +130,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     paddingLeft: 20,
-  }, 
-  
+  },
+
   textUsername: {
     textAlign: "center",
     color: "black",

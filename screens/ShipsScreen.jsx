@@ -1,27 +1,48 @@
-import { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
-import { getCatalogShips } from '../services/spacetraders';
-
-const ShipsScreen = ({ token }) => {
-
-  const [catalog, setCatalog] = useState([]);
-
-
-
-  useEffect(() => {
-    const fetchCatalogShips = async () => {
-      const catalogo = await getCatalogShips(token);
-      setCatalog(catalogo.ships)
-    }
-    fetchCatalogShips();
-  }, []);
-
+import { FlatList, Image, Text, View, StyleSheet } from 'react-native';
+import ShipCard from "../components/shipCard";
+const ShipsScreen = ({ catalogShips }) => {
 
   return (
     <View>
-      <Text>HOLITASr</Text>
+      <Image source={require('../assets/Space2.jpg')} style={styles.backgroundImage} />
+      <Text style={styles.text} >Available Ships</Text>
+
+      <FlatList
+        data={catalogShips.ships}
+        renderItem={({ item }) => <ShipCard ship={item} />}
+        keyExtractor={(item) => item.type}
+      />
     </View>
   );
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    width: "100%",
+    height: "100%",
+  },
+
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+  },
+  text: {
+    paddingTop: 40,
+    paddingBottom: 40,  
+    textAlign: "center",
+    color: "#fff",    
+    fontSize: 20,
+
+  },
+
+});
 export default ShipsScreen;
