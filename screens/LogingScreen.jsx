@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: "center",
-    backgroundImage: `uri('../assets/Space1.jpg')`,
   },
 
   backgroundImage: {
@@ -157,7 +156,6 @@ const styles = StyleSheet.create({
     height: '40%',
     width: '80%',
   },
-
 
   text: {
     flex: 1,
