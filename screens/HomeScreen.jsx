@@ -1,39 +1,14 @@
-import { useEffect, useState } from 'react';
 import { Text, StyleSheet, View, Image } from 'react-native';
-import { getUserProfile, getCatalogShips } from '../services/spacetraders';
 
-const HomeScreen = ({ token }) => {
-
-
-  // el perfil tiene que estar en el app y se lo paso a este
-
-  const [profile, setProfile] = useState({
-    user: {
-      credits: 0,
-      joinedAt: '',
-      shipCount: 0,
-      structureCount: 0,
-      username: ''
-    }
-  });
-
-  const [catalog, setCatalog] = useState([]);
-
-  useEffect(() => {
-    const fetchUserAcount = async () => {
-      const userProfile = await getUserProfile(token);
-      const catalogo = await getCatalogShips(token);
-      setProfile(userProfile);
-      setCatalog(catalogo)
-    }
-    fetchUserAcount();
-  }, []);
+const HomeScreen = ({profileData}) => {
 
   return (
     <View style={styles.container}>
-      {profile.user.username == '' ? (
+      <Image source={require('../assets/Space2.jpg')} style={styles.backgroundImage} />
+
+      {profileData.user.username == '' ? (
         <View>
-          <Text>Cargando los datos</Text>
+          <Text style={{color: 'white', size: 15}}>Cargando los datos</Text>
         </View>
       ) : (
         <View style={styles.containerprofile}>
@@ -41,11 +16,12 @@ const HomeScreen = ({ token }) => {
             <Image
               style={styles.imageProfile}
               source={require("../assets/capitanTitus.png")} />
-            <Text style={styles.textTarget} >{profile?.user?.username}</Text>
+            <Text style={styles.textUsername} >{profileData.user.username}</Text>
           </View>
 
           <View style={styles.creditTarget}>
-            <Text style={styles.textTarget}> Credits:  {profile?.user?.credits}</Text>
+            <Text style={styles.textTarget}> Credits: </Text>
+            <Text style={styles.textTarget}>{profileData.user.credit}</Text>
           </View>
 
           <View style={styles.target}>
@@ -54,14 +30,14 @@ const HomeScreen = ({ token }) => {
               <Image
                 style={styles.images}
                 source={require("../assets/imperial-navy.jpg")} />
-              <Text style={styles.textTarget}>{profile?.user?.shipCount}</Text>
+              <Text style={styles.textTarget}>{profileData.user.shipCount}</Text>
             </View>
 
             <View style={styles.contentTarget}>
               <Image
                 style={styles.images}
                 source={require("../assets/ciudadColmena.jpg")} />
-              <Text style={styles.textTarget}>{profile?.user?.structureCount}</Text>
+              <Text style={styles.textTarget}>{profileData.user.structureCount}</Text>
             </View>
           </View>
 
@@ -83,6 +59,14 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+  },
   containerprofile: {
     flexDirection: "column",
     justifyContent: "center",
@@ -91,7 +75,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "80%",
   },
-
   profile: {
     flex: 1,
     flexDirection: "row",
@@ -100,7 +83,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   imageProfile: {
-
     textAlign: "center",
     justifyContent: "center",
     alignItems: "center",
@@ -112,16 +94,13 @@ const styles = StyleSheet.create({
   images: {
     width: 50,
     height: 50,
-    marginBottom: 15,
     borderRadius: 100,
     paddingRight: 50,
   },
-
-
-
   creditTarget: {
     flex: 1,
-    backgroundColor: "#CFCFCF",
+    color: "white",
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     textAlign: "center",
     justifyContent: "center",
     alignItems: "center",
@@ -133,7 +112,8 @@ const styles = StyleSheet.create({
     width: 250,
     marginTop: 10,
     flexDirection: "column",
-    backgroundColor: "#CFCFCF",
+    color: "white",
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     textAlign: "center",
     justifyContent: "center",
     alignItems: "center",
@@ -145,7 +125,15 @@ const styles = StyleSheet.create({
   },
 
   textTarget: {
-    paddingLeft: 15,
+    textAlign: "center",
+    color: "white",
+    paddingLeft: 20,
+  }, 
+  
+  textUsername: {
+    textAlign: "center",
+    color: "black",
+    paddingLeft: 20,
   },
 
 

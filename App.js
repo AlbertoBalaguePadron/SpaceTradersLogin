@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
+import { getUserProfile, getCatalogShips } from "./services/spacetraders";
 
 //ventanas
 import HomeScreen from "./screens/HomeScreen";
@@ -31,7 +32,25 @@ const getValueFor = async (key) => {
   return "";
 };
 
+/*
+
+ESTA ES EL APP ?????????????????????
+
+
+*/
+
 export default function App() {
+  const [catalog, setCatalog] = useState([]);
+  const [profile, setProfile] = useState({
+    user: {
+      credits: 0,
+      joinedAt: "",
+      shipCount: 0,
+      structureCount: 0,
+      username: "",
+    },
+  });
+
   const [userToken, setUserToken] = useState("");
 
   const storeUserToken = (newToken) => {
@@ -48,8 +67,14 @@ export default function App() {
     const retriveStoreToken = async () => {
       const storedToken = await getValueFor(STORE_TOKEN_MY_KEY);
       setUserToken(storedToken);
-    };
 
+      if (storedToken) {
+        const userProfile = await getUserProfile(storedToken);
+        const catalogo = await getCatalogShips(storedToken);
+        setProfile(userProfile);
+        setCatalog(catalogo);
+      }
+    };
     retriveStoreToken();
   }, []);
 
@@ -66,12 +91,14 @@ export default function App() {
           ) : (
             <>
               <Drawer.Screen name="Home">
-                {() => <HomeScreen token={userToken} />}
+                {() => <HomeScreen profileData={profile} />}
               </Drawer.Screen>
               <Drawer.Screen name="Ships">
                 {() => <ShipsScreen token={userToken} />}
               </Drawer.Screen>
-              <Drawer.Screen name="Logout">{() => <Logout deleteStoreUserToken={deleteStoreUserToken} />}</Drawer.Screen>
+              <Drawer.Screen name="Logout">
+                {() => <Logout deleteStoreUserToken={deleteStoreUserToken} />}
+              </Drawer.Screen>
             </>
           )}
         </Drawer.Navigator>

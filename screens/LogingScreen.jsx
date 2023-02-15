@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     marginTop: 100,
     flexDirection: 'row',
-    justifyContent: 'space-between',    
+    justifyContent: 'space-between',
     width: "50%",
 
   },
@@ -152,8 +152,9 @@ const styles = StyleSheet.create({
   modalView: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff',
-    height: '50%',
+    color: 'rgba(255, 255, 255)',
+    backgroundColor: '#F39C12',
+    height: '40%',
     width: '80%',
   },
 
@@ -165,6 +166,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   modalText: {
+    color: "#FFFF",
     textAlign: "center",
     flexWrap: 'nowrap',
   },
