@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Text, Button, TextInput, Modal, StyleSheet, View } from 'react-native';
-import { NewUser } from '../services/spacetraders';
+import { Text, Image, Button, TextInput, Modal, StyleSheet, View } from 'react-native';
 
 
 // para importar el toast 
@@ -44,6 +43,13 @@ const LogingScreen = ({ onLogin }) => {
 
   return (
     <View style={styles.container}>
+      <Image source={require('../assets/Space2.jpg')} style={styles.backgroundImage} />
+
+      <View style={styles.logoContainer}>
+        <Image source={require('../assets/spaceTraders.jpg')} style={styles.logoImage} />
+      </View >
+
+
 
       <Modal
         animationType="fade"
@@ -77,7 +83,7 @@ const LogingScreen = ({ onLogin }) => {
             <Text style={styles.modalText} >Introduce su Token: </Text>
             <TextInput style={styles.modalText} onChangeText={setUserToken} value={userToken} placeholder=" Introduce su token" />
 
-            <View style={styles.buttonsContainer}>
+            <View style={styles.ModalbuttonsContainer}>
               <Button title="Login" onPress={tokenHandler} />
               <Button title="Close" onPress={() => {
                 setModalVisibleLogin(false);
@@ -88,7 +94,7 @@ const LogingScreen = ({ onLogin }) => {
         </View>
       </Modal>
 
-      <View >
+      <View style={styles.buttonsContainer}>
         <Button style={styles.ButtonOpenModals} title="Login" onPress={() => setModalVisibleLogin(true)} />
         <Button style={styles.ButtonOpenModals} title="Registrer" onPress={() => setModalVisibleRegister(true)} />
       </View>
@@ -101,12 +107,39 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: "center",
+    backgroundImage: `uri('../assets/Space1.jpg')`,
+  },
+
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+  },
+  logoContainer: {
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+  },
+
+  logoImage: {
+    borderRadius: 80,
+    width: 150,
+    height: 100,
+  },
+  buttonsContainer: {
+    marginTop: 100,
+    flexDirection: 'row',
+    justifyContent: 'space-between',    
+    width: "50%",
+
   },
 
   ButtonOpenModals: {
     alignItems: "center",
     justifyContent: "center",
-    paddingBottom: 10, 
   },
 
   centeredView: {
@@ -114,15 +147,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-
   },
 
   modalView: {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff',
-    height: '40%',
-    width: '70%',
+    height: '50%',
+    width: '80%',
   },
 
 
@@ -136,7 +168,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     flexWrap: 'nowrap',
   },
-  buttonsContainer: {
+  ModalbuttonsContainer: {
     marginTop: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',

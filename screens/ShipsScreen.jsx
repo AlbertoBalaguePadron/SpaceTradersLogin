@@ -19,7 +19,7 @@ const ShipsScreen = ({ token }) => {
 
   return (
     <View>
-      <Text>HOLITAS </Text>
+      <Text>HOLITASr</Text>
     </View>
   );
 }
