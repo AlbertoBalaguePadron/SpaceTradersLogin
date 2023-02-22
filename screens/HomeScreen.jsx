@@ -1,7 +1,6 @@
 import { Text, StyleSheet, View, Image } from 'react-native';
 
-const HomeScreen = ({ profileData }) => {
-
+const HomeScreen = ({ profileData, token }) => {
   return (
     <View style={styles.container}>
       <Image source={require('../assets/Space2.jpg')} style={styles.backgroundImage} />
@@ -12,6 +11,8 @@ const HomeScreen = ({ profileData }) => {
         </View>
       ) : (
         <View style={styles.containerprofile}>
+          <Text style={styles.textToken}> Este es su token : {token}</Text>
+
           <View style={styles.profile} >
             <Image
               style={styles.imageProfile}
@@ -21,7 +22,7 @@ const HomeScreen = ({ profileData }) => {
 
           <View style={styles.creditTarget}>
             <Text style={styles.textTarget}>Credits:</Text>
-            <Text style={styles.textTarget}>{profileData.user.credit}</Text>
+            <Text style={styles.textTarget}>{profileData.user.credits}</Text>
           </View>
 
           <View style={styles.target}>
@@ -121,9 +122,6 @@ const styles = StyleSheet.create({
 
   contentTarget: {
     flexDirection: "row",
-    alignContent: "center",
-    alignItems: "center",
-    paddingBottom: 10,
   },
 
   textTarget: {
@@ -138,6 +136,12 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
 
+  textToken: {
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 15,
+    marginTop: -25,
+  },
 
 });
 

@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from "react";
 import { Text, Image, Button, TextInput, Modal, StyleSheet, View } from 'react-native';
 import Toast from 'react-native-root-toast';
+import { generateNewUser } from "../services/spacetraders";
+
 
 const LogingScreen = ({ onLogin }) => {
 
@@ -14,6 +16,7 @@ const LogingScreen = ({ onLogin }) => {
       onLogin(userToken);
       setModalVisibleLogin(false)
     } else {
+      setModalVisibleLogin(false)
       Toast.show("Introduzca un Token para continuar !!!!", {
         duration: Toast.durations.LONG,
         backgroundColor: "red",
@@ -21,14 +24,14 @@ const LogingScreen = ({ onLogin }) => {
       });
     }
   }
+  /*Para registrar */
 
-  const userNameHandler = () => {
+  const userNameHandler = async () => {
     if (userName !== '') {
-
-      const NewUser = 7;
-
+      generateNewToken();
       setModalVisibleRegister(false)
     } else {
+      setModalVisibleRegister(false)
       Toast.show("Introduzca un Nick para continuar !!!!", {
         duration: Toast.durations.LONG,
         backgroundColor: "red",
@@ -37,66 +40,82 @@ const LogingScreen = ({ onLogin }) => {
     }
   }
 
-  return (
-    <View style={styles.container}>
-      <Image source={require('../assets/Space2.jpg')} style={styles.backgroundImage} />
 
-      <View style={styles.logoContainer}>
-        <Image source={require('../assets/spaceTraders.jpg')} style={styles.logoImage} />
-      </View >
+  const generateNewToken = async () => {
+    const storedToken = await generateNewUser(userName);
+
+    if (storedToken !== null) {
+      setUserName("");
+      onLogin(storedToken);
+    } else {
+      setUserName("");
+      Toast.show("Ya existe un usuario con ese nick!!!", {
+        duration: Toast.durations.LONG,
+        backgroundColor: "red",
+        textColor: "white",
+      });
+    }
+  }
 
 
+return (
+  <View style={styles.container}>
+    <Image source={require('../assets/Space2.jpg')} style={styles.backgroundImage} />
 
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisibleRegister}
-        onRequestClose={() => setModalVisibleRegister(false)}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText} >Introduce su Nick : </Text>
-            <TextInput style={styles.modalText} onChangeText={setUserName} value={userName} placeholder=" Introduce su username" />
-            <View style={styles.buttonsContainer}>
-              <Button title="Register" onPress={userNameHandler} />
-              <Button title="Close" onPress={() => {
-                setModalVisibleRegister(false);
-                setUserName('');
-              }} />
-            </View>
+    <View style={styles.logoContainer}>
+      <Image source={require('../assets/spaceTraders.jpg')} style={styles.logoImage} />
+    </View >
+
+    <Modal
+      animationType="fade"
+      transparent={true}
+      visible={modalVisibleRegister}
+      onRequestClose={() => setModalVisibleRegister(false)}
+    >
+      <View style={styles.centeredView}>
+        <View style={styles.modalView}>
+          <Text style={styles.modalText} >Introduce su Nick : </Text>
+          <TextInput style={styles.modalText} onChangeText={setUserName} value={userName} placeholder=" Introduce su username" />
+          <View style={styles.buttonsContainer}>
+            <Button title="Register" onPress={userNameHandler} />
+            <Button title="Close" onPress={() => {
+              setModalVisibleRegister(false);
+              setUserName('');
+            }} />
           </View>
         </View>
-      </Modal>
-
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisibleLogin}
-        onRequestClose={() => setModalVisibleLogin(false)}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText} >Introduce su Token: </Text>
-            <TextInput style={styles.modalText} onChangeText={setUserToken} value={userToken} placeholder=" Introduce su token" />
-
-            <View style={styles.ModalbuttonsContainer}>
-              <Button title="Login" onPress={tokenHandler} />
-              <Button title="Close" onPress={() => {
-                setModalVisibleLogin(false);
-                setUserToken('');
-              }} />
-            </View>
-          </View>
-        </View>
-      </Modal>
-
-      <View style={styles.buttonsContainer}>
-        <Button style={styles.ButtonOpenModals} title="Login" onPress={() => setModalVisibleLogin(true)} />
-        <Button style={styles.ButtonOpenModals} title="Registrer" onPress={() => setModalVisibleRegister(true)} />
       </View>
+    </Modal>
+
+    <Modal
+      animationType="fade"
+      transparent={true}
+      visible={modalVisibleLogin}
+      onRequestClose={() => setModalVisibleLogin(false)}
+    >
+      <View style={styles.centeredView}>
+        <View style={styles.modalView}>
+          <Text style={styles.modalText} >Introduce su Token: </Text>
+          <TextInput style={styles.modalText} onChangeText={setUserToken} value={userToken} placeholder=" Introduce su token" />
+
+          <View style={styles.ModalbuttonsContainer}>
+            <Button title="Login" onPress={tokenHandler} />
+            <Button title="Close" onPress={() => {
+              setModalVisibleLogin(false);
+              setUserToken('');
+            }} />
+          </View>
+        </View>
+      </View>
+    </Modal>
+
+    <View style={styles.buttonsContainer}>
+      <Button style={styles.ButtonOpenModals} title="Login" onPress={() => setModalVisibleLogin(true)} />
+      <Button style={styles.ButtonOpenModals} title="Registrer" onPress={() => setModalVisibleRegister(true)} />
     </View>
-  );
-};
+  </View>
+);
+  };
 
 const styles = StyleSheet.create({
   container: {
